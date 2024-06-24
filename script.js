@@ -131,25 +131,29 @@ function changeDirection(event) {
     }
 }
 
-function endGame() {
-    const playerName = prompt('Enter your name:');
-    const data = { name: playerName, score: score };
 
-    fetch('http://localhost:3000/leaderboard', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        updateLeaderboard();
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+function endGame() {
+    gameRunning = false;  
+    const playerName = prompt('Enter your name:');
+    if (playerName) {
+        const data = { name: playerName, score: score };
+
+        fetch('http://localhost:3000/leaderboard', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            updateLeaderboard();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
 }
 
 function updateLeaderboard() {
@@ -175,4 +179,4 @@ function restartGame() {
     gameLoop();
 }
 
-updateLeaderboard();
+updateLeaderboard(); 
